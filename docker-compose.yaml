@@ -7,21 +7,9 @@ services:
     command: npm start
     ports:
       - 3000:3000
-    restart: unless-stopped
     network_mode: host
     depends_on:
       - postgres
-
-  client:
-    build: client/
-    container_name: journal-client
-    command: npm run dev
-    network_mode: host
-    ports:
-      - 5173:5173
-    depends_on:
-      - server
-    restart: unless-stopped
     
   postgres:
     image: postgres:latest
@@ -35,7 +23,6 @@ services:
       - 5432:5432
     volumes:
       - ./pgdata:/var/lib/postgresql/data/pgdata
-    restart: unless-stopped
 
   pgadmin:
     container_name: pgadmin
@@ -44,8 +31,7 @@ services:
       - PGADMIN_DEFAULT_EMAIL=suvorov.matvej9@gmail.com
       - PGADMIN_DEFAULT_PASSWORD=motik0511
     ports:
-      - "5050:80"
-    restart: unless-stopped
+      - 5050:80
     depends_on:
       - postgres
     network_mode: host
